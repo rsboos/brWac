@@ -17,6 +17,8 @@ import java.util.List;
 public class Crawler implements Runnable {
     private int numberOfLinksToCrawl;
     private CrawledSites crawledSites;
+    private String visitedLinks;
+    private String outDirectory;
 
     public CrawledSites getCrawledSites() {
         return crawledSites;
@@ -34,9 +36,11 @@ public class Crawler implements Runnable {
 
     }
 
-    Crawler(CrawledSites crawledSites, int number){
+    Crawler(CrawledSites crawledSites, int number, String visitedLinks,String outDirectory){
         this.crawledSites = crawledSites;
         this.numberOfLinksToCrawl=number;
+        this.visitedLinks = visitedLinks;
+        this.outDirectory = outDirectory;
     }
     public int getNumberOfLinksToCrawl() {
         return numberOfLinksToCrawl;
@@ -53,7 +57,7 @@ public class Crawler implements Runnable {
         try {
 
             while(crawledSites.getListOfSites().size()<numberOfLinksToCrawl){
-            HTMLParser.getLinks(crawledSites,true,"visitedLinks.txt");
+            HTMLParser.getLinks(crawledSites,true,visitedLinks,outDirectory);
 
              }
           } catch (IOException e) {
@@ -65,9 +69,9 @@ public class Crawler implements Runnable {
 
     }
 
-    public static void initializeCrawling(int numberOfThreads,CrawledSites crawledSites,int maximumLimit){
+    public static void initializeCrawling(int numberOfThreads,CrawledSites crawledSites,int maximumLimit,String visitedLinks, String outDirectory){
        for(int i=0;i<numberOfThreads;++i){
-        new Thread(new Crawler(crawledSites,maximumLimit)).start();
+        new Thread(new Crawler(crawledSites,maximumLimit,visitedLinks,outDirectory)).start();
         }
     }
 
@@ -95,7 +99,7 @@ public class Crawler implements Runnable {
 	}
 
         br.close();
-        initializeCrawling(NumberOfThreads,crawledSites,2000000000);
+        initializeCrawling(NumberOfThreads,crawledSites,2000000000,args[2],args[1]);
         }
         else {
             System.out.println("The execution must be started in this form: java -jar dist/craw_simple.jar seedsFile.txt outDirectory visitedLinks.txt (optional)");

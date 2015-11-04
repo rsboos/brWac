@@ -19,12 +19,12 @@ import java.net.URL;
  */
 public class FetchPage {
 
-    public static void getContent(String url,CrawledSites crawledSites, int nome_arquivo) throws MalformedURLException {
+    public static void getContent(String url,CrawledSites crawledSites, int nome_arquivo, String outDirectory) throws MalformedURLException {
         boolean raiseFlag=false;
         String text=null;
         String currentDir = System.getProperty("user.dir");
         URL urlToGet = new URL(url);
-        File outDir = new File(currentDir,"out/");
+        File outDir = new File(currentDir,outDirectory);
         //System.out.println(urlToGet);
         try{
             text = ArticleExtractor.INSTANCE.getText(urlToGet);

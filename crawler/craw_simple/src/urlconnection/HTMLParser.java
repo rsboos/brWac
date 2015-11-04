@@ -14,6 +14,7 @@ import org.jsoup.select.Elements;
 import pagecontent.FetchPage;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
@@ -27,7 +28,7 @@ public class HTMLParser {
             + "|wav|avi|mov|mpeg|ram|m4v|pdf"
             + "|rm|smil|wmv|swf|wma|zip|rar|gz))$");
 
-    public static void getLinks(CrawledSites crawledSites,Boolean getContent, String fileName) throws IOException, BoilerpipeProcessingException {
+    public static void getLinks(CrawledSites crawledSites,Boolean getContent, String fileName, String outDirectory) throws IOException, BoilerpipeProcessingException {
         String url = crawledSites.getSeedUrl();
         Elements links = null;
         try{
@@ -35,12 +36,11 @@ public class HTMLParser {
         crawledSites.addCrawledSites(url);
         String currentDir = System.getProperty("user.dir");
         File visitedFile = new File(currentDir,fileName);
-        FileWriter fw = new FileWriter(visitedFile.getAbsoluteFile());
-	BufferedWriter bw = new BufferedWriter(fw);
-	bw.write(url);
-	bw.close();
-	// save url to txt
         
+        BufferedWriter out = new BufferedWriter
+         (new FileWriter(visitedFile));
+         out.write(url+"\n");
+         out.close();
         links = doc.select("a[href]");
         }catch(Exception e){
         links=null;
@@ -54,9 +54,13 @@ public class HTMLParser {
               crawledSites.addListOfSites(link.attr("abs:href").toString());
               Queue<String> listOfSites = crawledSites.getListOfSites();
               //System.out.println(link.attr("abs:href").toString());
-              if(getContent==true)
-                FetchPage.getContent(link.attr("abs:href").toString(),crawledSites,listOfSites.size());
-  
+              //PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(visitedFile, true)));
+        // save url to txt
+              if(getContent==true) {
+               // writer.println(link.attr("abs:href").toString());
+                  FetchPage.getContent(link.attr("abs:href").toString(),crawledSites,listOfSites.size(),outDirectory);
+              
+              }
 
             }
 

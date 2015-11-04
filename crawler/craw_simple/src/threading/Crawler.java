@@ -53,7 +53,7 @@ public class Crawler implements Runnable {
         try {
 
             while(crawledSites.getListOfSites().size()<numberOfLinksToCrawl){
-            HTMLParser.getLinks(crawledSites,true);
+            HTMLParser.getLinks(crawledSites,true,"visitedLinks.txt");
 
              }
           } catch (IOException e) {
@@ -76,7 +76,8 @@ public class Crawler implements Runnable {
     }
  
     public static void main(String[] args) throws IOException{
-	int NumberOfThreads = 10
+        if (args.length >= 2) {
+	int NumberOfThreads = 10;
         CrawledSites crawledSites = new CrawledSites();
         String currentDir = System.getProperty("user.dir");
         File seedsFile = new File(currentDir,args[0]);
@@ -85,8 +86,8 @@ public class Crawler implements Runnable {
         while ((line = br.readLine()) != null) {
            crawledSites.addListOfSites(line);
         }
-	if (args.length > 1) {
-		File visitedFile = new File(currentDir,args[1]);
+	if (args.length > 2) {
+		File visitedFile = new File(currentDir,args[2]);
 		br = new BufferedReader(new FileReader(visitedFile));
 		while ((line = br.readLine()) != null) {
 		   crawledSites.addCrawledSites(line);
@@ -94,6 +95,11 @@ public class Crawler implements Runnable {
 	}
 
         br.close();
-        initializeCrawling(NumberOfThreads,crawledSites,2000000000);    
+        initializeCrawling(NumberOfThreads,crawledSites,2000000000);
+        }
+        else {
+            System.out.println("The execution must be started in this form: java -jar dist/craw_simple.jar seedsFile.txt outDirectory visitedLinks.txt (optional)");
+            
+        }
     }
 }

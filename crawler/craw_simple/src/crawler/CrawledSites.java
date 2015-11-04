@@ -46,6 +46,7 @@ public class CrawledSites {
     }
     public void addCrawledSites(String url){
         this.crawledSites.add(url);
+        
     }
     public void setCrawledSites(ArrayList<String> crawledSites) {
         this.crawledSites = crawledSites;

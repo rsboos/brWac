@@ -28,8 +28,8 @@ public class FetchPage {
         //System.out.println(urlToGet);
         try{
             text = ArticleExtractor.INSTANCE.getText(urlToGet);
-	    fileName = text.hashCode();
-	    File outFile = new File(outDir,fileName);
+	    int fileName = text.hashCode();
+	    File outFile = new File(outDir,Integer.toString(fileName));
             PrintWriter out = new PrintWriter(outFile);
             out.println(text);
             if (out != null) {

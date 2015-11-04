@@ -4,6 +4,9 @@ import crawler.CrawledSites;
 import de.l3s.boilerpipe.BoilerpipeProcessingException;
 import de.l3s.boilerpipe.extractors.ArticleExtractor;
 import de.l3s.boilerpipe.extractors.DefaultExtractor;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -24,12 +27,20 @@ public class HTMLParser {
             + "|wav|avi|mov|mpeg|ram|m4v|pdf"
             + "|rm|smil|wmv|swf|wma|zip|rar|gz))$");
 
-    public static void getLinks(CrawledSites crawledSites,Boolean getContent) throws IOException, BoilerpipeProcessingException {
+    public static void getLinks(CrawledSites crawledSites,Boolean getContent, String fileName) throws IOException, BoilerpipeProcessingException {
         String url = crawledSites.getSeedUrl();
         Elements links = null;
         try{
         Document doc= Jsoup.connect(url).get();
         crawledSites.addCrawledSites(url);
+        String currentDir = System.getProperty("user.dir");
+        File visitedFile = new File(currentDir,fileName);
+        FileWriter fw = new FileWriter(visitedFile.getAbsoluteFile());
+	BufferedWriter bw = new BufferedWriter(fw);
+	bw.write(url);
+	bw.close();
+	// save url to txt
+        
         links = doc.select("a[href]");
         }catch(Exception e){
         links=null;

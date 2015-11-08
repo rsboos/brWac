@@ -86,14 +86,14 @@ public class Crawler implements Runnable {
                 crawledSites.addListOfSites(line);
             }
 
-            File visitedFile = new File(currentDir, args[3]);
+            File visitedFile = new File(currentDir, args[2]);
             br = new BufferedReader(new FileReader(visitedFile));
             while ((line = br.readLine()) != null) {
                 crawledSites.addCrawledSites(line);
             }
 
             br.close();
-            initializeCrawling(NumberOfThreads, crawledSites, 2000000000, args[3], args[1]);
+            initializeCrawling(NumberOfThreads, crawledSites, 2000000000, args[2], args[1]);
         } else {
             System.out.println("The execution must be started in this form: java -jar dist/craw_simple.jar seedsFile.txt outDirectory associationFile.txt visitedLinks.txt (optional)");
 

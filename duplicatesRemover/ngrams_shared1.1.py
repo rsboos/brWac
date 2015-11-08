@@ -1,4 +1,4 @@
-import codecs, re, random, os, shutil, itertools
+import codecs, re, random, os, shutil, itertools, sys
 from sets import Set
 
 class NGRAMS:
@@ -13,11 +13,11 @@ class NGRAMS:
 			for word in stopsString.splitlines():
 				self.stopwordsList.append(word)
 
-	def getNGramsFromDir(self, verbose):
+	def getNGramsFromDir(self, verbose = False):
 		ret = []
 		directory = os.listdir(self.dirPath)
 		for f in directory:
-			ret.append(self.getNGrams(self.dirPath+f))
+			ret.append([f,self.getNGrams(self.dirPath+f)])
 			if verbose:
 				print(f+" opened!")
 		return ret
@@ -25,7 +25,7 @@ class NGRAMS:
 	def removeStopwords(self,listOfWords): #remove stopwords from files
 		return [x for x in listOfWords if x not in self.stopwordsList]
 
-	def stringToListOfWords(text):
+	def stringToListOfWords(self,text):
 		return text.split()
 
 	def getNGrams(self,f):
@@ -48,22 +48,22 @@ class NGRAMS:
 					strNGram = ""
 				for i in range(0,self.sizeNGrams):
 					strNGram+=wordsList[r+i]+" "
-					ngrams.add(strNGram)
-				return ngrams
-			else:
-				return None
+				ngrams.add(strNGram)
+		return ngrams
 
-	def compareAndRemove(self,wordsList,duplicatesPath,verbose):
-		for l1, l2 in itertools.combinations(wordsList, 2)
-			if len(l1 & l2 > threshold):
+	def compareAndRemove(self,wordsList,permanentPath, threshold, verbose = False):
+		toMove = []
+		for l1, l2 in itertools.combinations(wordsList, 2):
+			if len(l1[1] & l2[1]) > threshold:
 				if verbose:
-					print(l1+" is probably equal to "+l2)
-				removeFile(l2,duplicatesPath,verbose)
+					print(l1[0]+" is probably equal to "+l2[0])
+				toMove.append(l2[0])
+		for elem in toMove:
+			moveFile(elem,permanentPath,verbose)
 
-def removeFile(completeName,duplicatesPath,verbose):
+def moveFile(name,path,verbose = False):
 	try:
-		shutil.copy2(completeName, duplicatesPath)
-		os.remove(completeName)
+		shutil.move("out/"+name, path+name)
 		if verbose:
 			print("File "+completeName+" removed!")		
 	except IOError:
@@ -78,9 +78,9 @@ def printListToFile(List,outputFile):
 def main(argv):
 	verbose = True
 	NGrams = NGRAMS(25,5,"out/","stopwords.txt")
-	completeList = Ngrams.getNGramsFromDir(verbose)
+	completeList = NGrams.getNGramsFromDir(verbose)
 	#printListToFile(completeList,"listOfNGrams.txt")
-	NGrams.compareAndRemove(completeList,duplicatedPath)
+	NGrams.compareAndRemove(completeList,"permanentFiles",2,verbose)
 
 if __name__ == "__main__":
    main(sys.argv[1:])

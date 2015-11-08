@@ -7,7 +7,7 @@ import urlconnection.HTMLParser;
 
 public class CrawledSites {
 
-    private List<Integer> crawledSites = new ArrayList<Integer>();
+    private HashSet<Integer> crawledSites = new HashSet<Integer>();
     private Queue<String> listOfSites = new LinkedList<String>();
     // private HashMap<String,String> content = new HashMap<String,String>() ;
     private List<String> crawledDomains = new ArrayList<String>();
@@ -20,7 +20,7 @@ public class CrawledSites {
         this.crawledDomains = crawledDomains;
     }
 
-    public List<Integer> getCrawledSites() {
+    public HashSet<Integer> getCrawledSites() {
         return crawledSites;
     }
 
@@ -38,7 +38,7 @@ public class CrawledSites {
         System.out.println(url);
     }
 
-    public void setCrawledSites(ArrayList<Integer> crawledSites) {
+    public void setCrawledSites(HashSet<Integer> crawledSites) {
         this.crawledSites = crawledSites;
     }
 

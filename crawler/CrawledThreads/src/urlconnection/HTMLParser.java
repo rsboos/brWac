@@ -28,12 +28,12 @@ public class HTMLParser {
             + "|wav|avi|mov|mpeg|ram|m4v|pdf"
             + "|rm|smil|wmv|swf|wma|zip|rar|gz))$");
 
-    public static synchronized void getLinks(CrawledSites crawledSites, String fileName, String outDirectory) throws IOException, BoilerpipeProcessingException {
+    public static synchronized void getLinks(CrawledSites crawledSites, String fileVisitedLinks, String outDirectory, String fileAssociation) throws IOException, BoilerpipeProcessingException {
         String url = crawledSites.getSeedUrl();
         if (shouldVisit(url)) {
             boolean notDownloaded = crawledSites.addListOfSites(url); // add to download
             if (notDownloaded)
-                FetchPage.getContent(url, crawledSites, outDirectory);
+                FetchPage.getContent(url, crawledSites, outDirectory, fileVisitedLinks, fileAssociation);
         }
         Elements links = null;
         try {
@@ -48,7 +48,7 @@ public class HTMLParser {
                     if (shouldVisit(urlstr)) {
                         boolean notDownloaded = crawledSites.addListOfSites(urlstr); // add to download
                         if (notDownloaded)
-                            FetchPage.getContent(urlstr, crawledSites, outDirectory);
+                            FetchPage.getContent(url, crawledSites, outDirectory, fileVisitedLinks, fileAssociation);
                     }
                 }
             }

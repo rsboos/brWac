@@ -1,5 +1,9 @@
 package crawler;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
@@ -32,10 +36,14 @@ public class CrawledSites {
         return (this.getListOfSites().remove());
     }
 
-    public void addCrawledSites(String url) throws MalformedURLException {
+    public void addCrawledSites(String url, String fileOutput) throws MalformedURLException, IOException {
         int HashToAdd = getHash(url);
         this.crawledSites.add(HashToAdd);
-        System.out.println(url);
+        String currentDir = System.getProperty("user.dir");
+        File fileOut = new File(currentDir, fileOutput);
+        BufferedWriter out = new BufferedWriter(new FileWriter(fileOut));
+        out.write(url+"\n");
+        out.close();
     }
 
     public void setCrawledSites(HashSet<Integer> crawledSites) {

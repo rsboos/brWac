@@ -1,0 +1,7 @@
+import codecs,sys,random
+
+inputOpener = codecs.open("stopwordPT.txt",'r',encoding='utf-8')
+outputOpener = codecs.open("stopsArray.txt",'w','utf-8')
+inputText = inputOpener.read()
+for word in inputText.splitlines():
+	outputOpener.writelines(", %s" % word)

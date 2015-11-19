@@ -25,7 +25,6 @@ public class FetchPage {
             int fileName = text.hashCode();
             File outFile = new File(outDir, Integer.toString(fileName));
             if (!outFile.exists()) {
-                
                 PrintWriter out = new PrintWriter(outFile);
                 out.println(text);
                 if (out != null) {

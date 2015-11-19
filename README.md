@@ -38,7 +38,7 @@ This document will cover instructions on how to construct a corpus based on inte
 
 	2.4) Example of execution:
 
-		java -jar dist/threadedCrawler.jar seedsFile.txt out/ associationFile.txt visitedLinks.txt numberOfThreads
+		java -jar dist/threadedCrawler.jar seedsFile.txt out/ associationFile.txt visitedLinks.txt 1
 
 3) The files obtained pass through a duplicates identification stage (fixes TO DO):
 

@@ -25,6 +25,7 @@ This document will cover instructions on how to construct a corpus based on inte
 		python makeLinks.py files/formas.totalbr.txt RrYB+QTc/TJUih/6o6rTDLLcRL74wBwN1A4FhI/xqKA files/linksCompleted.txt 10 files/stopwords.txt
 
 2) Then we give these seeds to the crawler:
+
 	2.1) Description: This step consists of, given a list of URLs, perform a web craw in .br pages, getting human produced content from each link visited. Acknowledges to BoilerPipe library, which has helped to remove non human produced texts. To know how this step was performed in details (removal tactics, search, etc) read the brWac article (link to article).
 
 	2.2) Input (in order):
